@@ -9,8 +9,8 @@ const getCategoryWiseExpenditure = async (req, res) => {
     const dbResponse = await TransactionModel.find({
       $expr: {
         $and: [
-          { $eq: [{ $month: "$date" }, month] },
-          { $eq: [{ $year: "$date" }, year] },
+          { $eq: [{ $month: "$date" }, parseInt(month,10)] },
+          { $eq: [{ $year: "$date" }, parseInt(year, 10)] },
         ],
       },
     })
