@@ -16,3 +16,5 @@ router.post(rootPath + "auth/register", registerUser);
 router.post(rootPath + "auth/login", loginUser);
 
 router.get(rootPath + "auth/session-validate", validateToken, validateSession);
+
+module.exports = router;

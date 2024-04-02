@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Email is required"],
   },
+  passwordHash: {
+    type: String,
+    require: [true, "Password Hash is Required"],
+  },
   preferences: {
     type: mongoose.Schema.Types.Mixed,
     default: {

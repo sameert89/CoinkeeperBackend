@@ -7,3 +7,5 @@ const {
 const { rootPath } = require("../utils/constants");
 
 router.get(rootPath + "categorywise-expenditure", getCategoryWiseExpenditure);
+
+module.exports = router;

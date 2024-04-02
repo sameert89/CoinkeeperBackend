@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const UserModel = require("../models/userModel");
-const { SALT_ROUNDS, COOKIE_SETTINGS } = require("../config/auth.config");
+const { SALT_ROUNDS, COOKIE_SETTINGS } = require("../configs/auth.config");
 
 const { createToken } = require("../middlewares/authMiddleware");
 
@@ -25,7 +25,7 @@ const registerUser = async (req, res) => {
     const newUser = new UserModel({
       name,
       email,
-      password: passwordHash,
+      passwordHash: passwordHash,
     });
 
     // Save the new user
@@ -53,7 +53,7 @@ const loginUser = async (req, res) => {
         .status(404)
         .json({ success: false, message: "User doesn't exist" });
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (isPasswordValid) {
       const accessToken = createToken(user);
       res.cookie("access_token", accessToken, COOKIE_SETTINGS);

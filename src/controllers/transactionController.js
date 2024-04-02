@@ -12,10 +12,8 @@ const getTransactions = async (req, res) => {
     }
     const dbResponse = await TransactionModel.find({
       date: { $gte: dateStart, $lte: dateEnd },
-    })
-      .exec()
-      .lean();
-    res.status(200).send(dbResponse);
+    }).lean();
+    res.status(200).json(dbResponse);
   } catch (error) {
     console.log(error);
     res.status(404).send("Resource Not Found In the Database");
@@ -33,7 +31,7 @@ const addTransaction = async (req, res) => {
       amount: amount,
       category: category,
       date: new Date(date),
-      user: req.uid, // comes from the auth middleware
+      user: req.id, // comes from the auth middleware
       description: description,
     });
     await transaction.save();
@@ -73,10 +71,12 @@ const removeTransaction = async (req, res) => {
       return;
     }
     const deleted = await TransactionModel.findOneAndDelete({ _id: id });
+    console.log(deleted);
     if (!deleted) {
       res.status(404).send("Transaction not found");
       return;
     }
+    res.status(204).end();
   } catch (error) {
     console.log(error);
     res.status(400).send("Cannot Update Transaction");
