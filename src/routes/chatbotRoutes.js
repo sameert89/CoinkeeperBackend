@@ -2,11 +2,13 @@ const express = require("express");
 
 const router = express.Router();
 
-import {
+const {
   interpretVoiceTranscripton,
   provideAnalysis,
-} from "../controllers/chatbotController";
+} = require("../controllers/chatbotController");
 const { rootPath } = require("../utils/constants");
 
 router.post(rootPath + "chatbot/decode", interpretVoiceTranscripton);
-router.get(rootPath, "chatbot/analysis", provideAnalysis);
+router.get(rootPath + "chatbot/analysis", provideAnalysis);
+
+module.exports = router;

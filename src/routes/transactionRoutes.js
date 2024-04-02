@@ -10,8 +10,11 @@ const {
 } = require("../controllers/transactionController");
 
 const { rootPath } = require("../utils/constants");
+const { validateToken } = require("../middlewares/authMiddleware");
 
-router.get(rootPath + "transactions", getTransactions);
-router.post(rootPath + "transactions", addTransaction);
-router.patch(rootPath + "transactions/:id", updateTransaction);
-router.delete(rootPath + "transactions/:id", removeTransaction);
+router.get(rootPath + "transactions", validateToken, getTransactions);
+router.post(rootPath + "transactions", validateToken, addTransaction);
+router.patch(rootPath + "transactions/:id", validateToken, updateTransaction);
+router.delete(rootPath + "transactions/:id", validateToken, removeTransaction);
+
+module.exports = router;

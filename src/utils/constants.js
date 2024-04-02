@@ -1,6 +1,6 @@
-export const rootPath = "/api/v1/";
+module.exports.rootPath = "/api/v1/";
 
-export const EnumPages = Object.freeze({
+module.exports.EnumPages = Object.freeze({
   DASHBOARD: "dashboard",
   HISTORY: "history",
   ADD_EXPENSE: "add-expense",
