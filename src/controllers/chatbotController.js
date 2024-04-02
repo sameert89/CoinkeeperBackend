@@ -19,7 +19,7 @@ const interpretVoiceTranscripton = async (req, res) => {
       ],
       model: "gpt-3.5-turbo",
     });
-    res.send(completion.choices[0].message.content);
+    res.json({ interpretedData: completion.choices[0].message.content });
   } catch (error) {
     console.log(error);
     res.status(422).send("Cannot Process Transaction");

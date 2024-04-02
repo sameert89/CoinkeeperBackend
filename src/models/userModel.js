@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   preferences: {
     type: mongoose.Schema.Types.Mixed,
     default: {
-      budget: 0,
+      budget: 50000,
       defaultPage: EnumPages.DASHBOARD,
     },
   },

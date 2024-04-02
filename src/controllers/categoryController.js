@@ -13,9 +13,7 @@ const getCategoryWiseExpenditure = async (req, res) => {
           { $eq: [{ $year: "$date" }, parseInt(year, 10)] },
         ],
       },
-    })
-      .exec()
-      .lean();
+    }).lean();
     res.status(200);
     res.send(dbResponse);
   } catch (error) {
