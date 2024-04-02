@@ -1,14 +1,14 @@
 const { sign, verify } = require("jsonwebtoken");
 function validateToken(req, res, next) {
-  const accessToken = req.cookies["access_token"];
   try {
+    const accessToken = req.cookies["access_token"];
     const decodedToken = verify(accessToken, process.env.JWT_SECRET);
     req.id = decodedToken.id; //? express middleware variable, it can be accesed by the parents useful for grabbing user data
     //? stored in the cookie
     next();
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Could Not Validate User" });
+    return res.status(401).json({ error: "Could Not Validate User" });
   }
 }
 function createToken(user) {

@@ -8,6 +8,15 @@ app.use(bodyParser.json());
 const cookies = require("cookie-parser");
 app.use(cookies());
 
+// Cors Setup
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "http://localhost:4200",
+    credentials: true,
+  })
+);
+
 // Database Setup
 const connectDB = require("./src/configs/db.config");
 connectDB();
@@ -26,8 +35,10 @@ const authRoutes = require("./src/routes/authRoutes");
 const categoryRoutes = require("./src/routes/categoryRoutes");
 const chatbotRoutes = require("./src/routes/chatbotRoutes");
 const transactionRoutes = require("./src/routes/transactionRoutes");
+const userRoutes = require("./src/routes/userRoutes");
 
 app.use("", authRoutes);
 app.use("", categoryRoutes);
 app.use("", chatbotRoutes);
 app.use("", transactionRoutes);
+app.use("", userRoutes);
