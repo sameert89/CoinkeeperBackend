@@ -22,15 +22,15 @@ const interpretVoiceTranscripton = async (req, res) => {
     res.json({ interpretedData: completion.choices[0].message.content });
   } catch (error) {
     console.log(error);
-    res.status(422).send("Cannot Process Transaction");
+    res.status(422).json("Cannot Process Transaction");
   }
 };
 
 const provideAnalysis = async (req, res) => {
   try {
-    res.status(200).send("Analysis is still under development");
+    res.status(200).json("Analysis is still under development");
   } catch (error) {
-    res.status(404).send("Cannot Find Analysis");
+    res.status(404).json("Cannot Find Analysis");
   }
 };
 

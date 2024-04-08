@@ -9,7 +9,7 @@ const getCategoryWiseExpenditure = async (req, res) => {
     const dbResponse = await TransactionModel.find({
       $expr: {
         $and: [
-          { $eq: [{ $month: "$date" }, parseInt(month,10)] },
+          { $eq: [{ $month: "$date" }, parseInt(month, 10)] },
           { $eq: [{ $year: "$date" }, parseInt(year, 10)] },
         ],
       },
@@ -19,7 +19,7 @@ const getCategoryWiseExpenditure = async (req, res) => {
   } catch (error) {
     res.status(404);
     console.log(error);
-    res.send("Resource Not Found In the Database");
+    res.json("Resource Not Found In the Database");
   }
 };
 

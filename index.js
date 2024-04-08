@@ -22,7 +22,7 @@ const connectDB = require("./src/configs/db.config");
 connectDB();
 
 app.get("/", function (req, res) {
-  res.send("Hello World");
+  res.json("Hello World");
 });
 
 const port = process.env.PORT || 3000;

@@ -20,10 +20,10 @@ const setUserPreferences = async (req, res) => {
       { _id: req.id },
       { ...(budget && { budget }), ...(defaultPage && { defaultPage }) }
     );
-    res.status(200).send("Preferences Updated Successfuly");
+    res.status(200).json("Preferences Updated Successfuly");
   } catch (error) {
     console.log(error);
-    return res.status(500).send("Failed to set user preferences");
+    return res.status(500).json("Failed to set user preferences");
   }
 };
 
