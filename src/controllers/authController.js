@@ -3,14 +3,16 @@ const UserModel = require("../models/userModel");
 const { SALT_ROUNDS, COOKIE_SETTINGS } = require("../configs/auth.config");
 
 const { createToken } = require("../middlewares/authMiddleware");
+const { encrypt, deterministicHash } = require("../utils/helpers");
 
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    const emailHash = deterministicHash(email);
 
     // Check if the user already exists
     const existingUser = await UserModel.findOne({
-      email,
+      emailHash,
     });
 
     if (existingUser) {
@@ -23,8 +25,9 @@ const registerUser = async (req, res) => {
 
     // Create new user object
     const newUser = new UserModel({
-      name,
-      email,
+      name: encrypt(name),
+      email: encrypt(email),
+      emailHash: emailHash, // Reusing the previous value to save computation
       passwordHash: passwordHash,
     });
 
@@ -47,7 +50,8 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await UserModel.findOne({ email });
+    const emailHash = deterministicHash(email);
+    const user = await UserModel.findOne({ emailHash });
     if (!user) {
       return res
         .status(404)

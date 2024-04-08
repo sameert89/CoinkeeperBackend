@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 
+// Mixed for IV and Encrypted Data
+
 const transactionSchema = new mongoose.Schema({
     amount: {
-        type: Number,
+        type: mongoose.Schema.Types.Mixed, // {iv: string, encryptedData: string}
         required: [true, 'Amount is required'],
     },
     category: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed,
         required: [true, 'Category is required'],
     },
     date: {
@@ -14,7 +16,7 @@ const transactionSchema = new mongoose.Schema({
         default: Date.now,
     },
     description: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed,
         trim: true,
     },
     user: {

@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
-
 const TransactionModel = require("../models/transactionModel");
+const { encrypt, decrypt } = require("../utils/helpers");
 
 //Based on Date Range
 const getTransactions = async (req, res) => {
@@ -11,9 +10,22 @@ const getTransactions = async (req, res) => {
       return;
     }
     const dbResponse = await TransactionModel.find({
+      user: req.id,
       date: { $gte: dateStart, $lte: dateEnd },
     }).lean();
-    res.status(200).json(dbResponse);
+    console.log(dbResponse);
+    // Decrypt the necessary fields
+    const transactions = dbResponse.map((transaction) => ({
+      ...transaction,
+      amount: decrypt(transaction.amount),
+      category: decrypt(transaction.category),
+      description: transaction.description
+        ? decrypt(transaction.description)
+        : null,
+    }));
+
+    console.log(transactions);
+    res.status(200).json(transactions);
   } catch (error) {
     console.log(error);
     res.status(404).json("Resource Not Found In the Database");
@@ -23,17 +35,17 @@ const getTransactions = async (req, res) => {
 const addTransaction = async (req, res) => {
   try {
     const { description, date, amount, category } = req.body;
-    console.log(req.body);
+
     if (!description || !date || !amount || !category) {
       res.status(400).json("Transaction Details are Incomplete");
       return;
     } // Transaction schema is not subject to change hence the CC
     const transaction = new TransactionModel({
-      amount: amount,
-      category: category,
+      amount: encrypt(amount.toString()),
+      category: encrypt(category),
       date: new Date(date),
       user: req.id, // comes from the auth middleware
-      description: description,
+      description: encrypt(description),
     });
     await transaction.save();
     res.status(201).json("Transaction Added Successfully");
@@ -50,20 +62,23 @@ const updateTransaction = async (req, res) => {
       res.status(400).json("Transaction ID absent");
       return;
     }
-    const updateResult = await TransactionModel.findOneAndUpdate(
-      { _id: id },
-      req.body,
-      { new: true }
-    );
-    if (!updateResult) {
-      res.status(404).json("Transaction not found");
-      return;
-    }
+
+    const updateData = { ...req.body };
+    if (updateData.amount) updateData.amount = encrypt(updateData.amount);
+    if (updateData.category) updateData.category = encrypt(updateData.category);
+    if (updateData.description)
+      updateData.description = encrypt(updateData.description);
+
+    await TransactionModel.findOneAndUpdate({ _id: id }, updateData, {
+      new: true,
+    }).lean();
+    res.status(200).end();
   } catch (error) {
     console.log(error);
     res.status(400).json("Cannot Update Transaction");
   }
 };
+
 const removeTransaction = async (req, res) => {
   try {
     const { id } = req.params;
