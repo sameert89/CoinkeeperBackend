@@ -84,4 +84,9 @@ const validateSession = (req, res) => {
   res.status(200).end();
 };
 
-module.exports = { loginUser, registerUser, validateSession };
+const logoutUser = async (req, res) => {
+  res.clearCookie("access_token");
+  res.end();
+};
+
+module.exports = { loginUser, registerUser, validateSession, logoutUser };

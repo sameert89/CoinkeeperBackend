@@ -1,9 +1,15 @@
 const UserModel = require("../models/userModel");
+const { encrypt, decrypt } = require("../utils/helpers");
 
 const getUserPreferences = async (req, res) => {
   try {
-    const response = await UserModel.find({ _id: req.id });
-    return res.status(200).json(response);
+    const response = await UserModel.findOne({ _id: req.id });
+    const user = {
+      name: decrypt(response.name),
+      email: decrypt(response.email),
+      preferences: response.preferences,
+    };
+    return res.status(200).json(user);
   } catch (error) {
     console.log(error);
     return res.status(404).end();
