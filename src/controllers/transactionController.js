@@ -13,7 +13,6 @@ const getTransactions = async (req, res) => {
       user: req.id,
       date: { $gte: dateStart, $lte: dateEnd },
     }).lean();
-    console.log(dbResponse);
     // Decrypt the necessary fields
     const transactions = dbResponse.map((transaction) => ({
       ...transaction,
@@ -87,7 +86,6 @@ const removeTransaction = async (req, res) => {
       return;
     }
     const deleted = await TransactionModel.findOneAndDelete({ _id: id });
-    console.log(deleted);
     if (!deleted) {
       res.status(404).json("Transaction not found");
       return;

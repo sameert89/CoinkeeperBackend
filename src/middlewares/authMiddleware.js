@@ -6,8 +6,8 @@ function validateToken(req, res, next) {
     req.id = decodedToken.id; //? express middleware variable, it can be accesed by the parents useful for grabbing user data
     //? stored in the cookie
     next();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return res.status(401).json({ error: "Could Not Validate User" });
   }
 }

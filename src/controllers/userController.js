@@ -18,15 +18,22 @@ const getUserPreferences = async (req, res) => {
 
 const setUserPreferences = async (req, res) => {
   try {
-    const { budget, defaultPage } = req.body;
-    if (!budget && !defaultPage) {
+    const { name, email, preferences } = req.body;
+    if (!name && !email && !preferences) {
       return res.status(204).end();
     }
     const response = await UserModel.findOneAndUpdate(
       { _id: req.id },
-      { ...(budget && { budget }), ...(defaultPage && { defaultPage }) }
+      {
+        name: encrypt(name),
+        email: encrypt(email),
+        preferences: preferences,
+      }
     );
-    res.status(200).json("Preferences Updated Successfuly");
+    res.status(200).json({
+      ...response,
+      message: "Profile Updated Successfully",
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json("Failed to set user preferences");
