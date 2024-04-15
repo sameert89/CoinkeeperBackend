@@ -4,5 +4,5 @@ module.exports.COOKIE_SETTINGS = {
   httpOnly: true,
   secure: true,
   sameSite: "none",
-  domain: "coinkeeper.vercel.app"
+  domain: ".vercel.app"
 };
