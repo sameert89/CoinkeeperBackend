@@ -4,5 +4,4 @@ module.exports.COOKIE_SETTINGS = {
   httpOnly: true,
   secure: true,
   sameSite: "none",
-  domain: ".vercel.app"
 };
