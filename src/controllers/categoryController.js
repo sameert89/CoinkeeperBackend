@@ -9,9 +9,9 @@ const getCategoryWiseExpenditure = async (req, res) => {
       throw "Query Params are Incorrect";
     }
     const dbResponse = await TransactionModel.find({
+      user: req.id,
       $expr: {
         $and: [
-          { user: req.id },
           { $eq: [{ $month: "$date" }, parseInt(month, 10)] },
           { $eq: [{ $year: "$date" }, parseInt(year, 10)] },
         ],
