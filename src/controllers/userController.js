@@ -15,6 +15,15 @@ const getUserPreferences = async (req, res) => {
     return res.status(404).end();
   }
 };
+const getBudget = async(req, res) => {
+  try {
+    const response = await UserModel.findOne({id: req.id});
+    return res.json(response.preferences.budget);
+  } catch(error) {
+    console.log(error);
+    res.status(404).end();
+  }
+}
 
 const setUserPreferences = async (req, res) => {
   try {
@@ -40,4 +49,4 @@ const setUserPreferences = async (req, res) => {
   }
 };
 
-module.exports = { getUserPreferences, setUserPreferences };
+module.exports = { getUserPreferences, setUserPreferences, getBudget };
