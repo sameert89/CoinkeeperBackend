@@ -85,7 +85,7 @@ const validateSession = (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  res.clearCookie("access_token");
+  res.clearCookie("access_token", COOKIE_SETTINGS);
   res.end();
 };
 
