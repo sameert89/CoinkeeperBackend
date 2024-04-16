@@ -7,7 +7,7 @@ function validateToken(req, res, next) {
     //? stored in the cookie
     next();
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(401).json({ error: "Could Not Validate User" });
   }
 }

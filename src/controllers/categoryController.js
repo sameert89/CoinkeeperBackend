@@ -1,4 +1,5 @@
 const TransactionModel = require("../models/transactionModel");
+const UserModel = require("../models/userModel");
 const { decrypt } = require("../utils/helpers");
 
 const getCategoryWiseExpenditure = async (req, res) => {
@@ -24,7 +25,13 @@ const getCategoryWiseExpenditure = async (req, res) => {
         ? decrypt(transaction.description)
         : null,
     }));
-    res.status(200).send(transactions);
+    const {preferences: {budget}} = await UserModel.findOne({
+      id: req.id
+    })
+    res.status(200).json({
+      transactions,
+      budget
+    });
   } catch (error) {
     res.status(404);
     console.log(error);

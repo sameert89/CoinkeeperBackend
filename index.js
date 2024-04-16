@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 // Express Server Setup
@@ -13,7 +12,10 @@ app.use(cookies());
 const cors = require("cors");
 app.use(
   cors({
-    origin: "https://coinkeeper.vercel.app",
+    origin:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:4200"
+        : "https://coinkeeper.vercel.app",
     credentials: true,
   })
 );
