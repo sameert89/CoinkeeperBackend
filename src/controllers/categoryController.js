@@ -25,12 +25,12 @@ const getCategoryWiseExpenditure = async (req, res) => {
         ? decrypt(transaction.description)
         : null,
     }));
-    const {preferences: {budget}} = await UserModel.findOne({
+    const userData = await UserModel.findOne({
       id: req.id
     })
     res.status(200).json({
       transactions,
-      budget
+      budget: userData.preferences.budget || 0
     });
   } catch (error) {
     res.status(404);
