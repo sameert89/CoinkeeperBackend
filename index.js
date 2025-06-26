@@ -12,10 +12,7 @@ app.use(cookies());
 const cors = require("cors");
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:4200"
-        : "https://coinkeeper.vercel.app",
+    origin: process.env.FRONTEND_URL ?? "http://localhost:4200",
     credentials: true,
   })
 );
